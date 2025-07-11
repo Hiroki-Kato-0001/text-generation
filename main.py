@@ -1,11 +1,11 @@
 from src.download_text import download_text
-from src.preprocess import preprocess_text
+from src.preprocess import load_text
 from src.model import build_model, train_model
 from src.generate import generate_text
 import numpy as np
 
 # Prepare a data
-text = preprocess_text("data/input.txt")
+text = load_text("data/cleaned.txt")
 
 # Create a vocab dictionary
 chars = sorted(list(set(text)))
@@ -29,9 +29,20 @@ for i, seq in enumerate(sequences):
     for t, char in enumerate(seq):
         X[i, t, char_to_idx[char]] = 1
     y[i, char_to_idx[next_chars[i]]] = 1
+X = X.astype("float32")
+y = y.astype("float32")
+print(np.sum(y, axis=1))  # すべて1であるべき
+print(np.unique(np.sum(y, axis=1)))  # [1] のみであるべき
+print(X[0])
+print(y[0])
+
 
 # Build and train a model
 model = build_model(len(chars), seq_length)
+print("X dtype:", X.dtype, "y dtype:", y.dtype)
+print("X NaN:", np.isnan(X).any(), "X Inf:", np.isinf(X).any())
+print("y NaN:", np.isnan(y).any(), "y Inf:", np.isinf(y).any())
+
 train_model(model, X, y, epochs=10)
 
 # Generate a text

@@ -1,7 +1,4 @@
 import re
-import os
-
-print(os.getcwd)
 
 def load_text(path):
     with open(path, "r", encoding="utf-8") as f:

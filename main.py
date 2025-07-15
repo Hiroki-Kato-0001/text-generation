@@ -43,7 +43,7 @@ print("X dtype:", X.dtype, "y dtype:", y.dtype)
 print("X NaN:", np.isnan(X).any(), "X Inf:", np.isinf(X).any())
 print("y NaN:", np.isnan(y).any(), "y Inf:", np.isinf(y).any())
 
-train_model(model, X, y, epochs=10)
+train_model(model, X, y, epochs=20)
 
 # Generate a text
 seed = text[0:seq_length]
